@@ -1,0 +1,1 @@
+<% _.each(fruits, function (fruit) { %><%= fruit.name %>,<% }); %>
