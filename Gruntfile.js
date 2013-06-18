@@ -1,6 +1,6 @@
 /*
  * grunt-ejs-render
- * https://github.com/DWJ/grunt-ejs-render
+ * https://github.com/dwightjack/grunt-ejs-render
  *
  * Copyright (c) 2013 Marco Solazzi
  * Licensed under the MIT license.
@@ -34,16 +34,18 @@ module.exports = function(grunt) {
         options: {
         },
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
+          'tmp/default_options': ['test/fixtures/default_options'],
         },
       },
       custom_options: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!',
+          templates: 'test/fixtures/templates/**/*.tpl',
+          data: {
+            fruits: [{name: 'orange'}, {name: 'apple'}, {name: 'lemon'}]
+          }
         },
         files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
+          'tmp/custom_options': ['test/fixtures/custom_options'],
         },
       },
     },
