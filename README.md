@@ -1,6 +1,14 @@
 # grunt-ejs-render
 
-> Render EJS templates with custom data and helpers
+> Render ejs templates with custom data and helpers
+
+This plugin provides ejs static rendering to enhance static file development.
+
+Aside from default [ejs features](https://github.com/visionmedia/ejs#features) it provides:
+
+* lo-dash/underscore functions (http://lodash.com/docs)
+* lo-dash/underscore templates powered view partials (http://lodash.com/docs#template)
+* an easy way to define custom _per task_ helpers 
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
@@ -37,53 +45,89 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.data
+Type: `Object`
+Default value: `null`
 
-A string value that is used to do something with whatever.
+An object containing dynamic data to be passed to templates.  
+To access datas from inside a template use `data.` namespace:
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+```html
+<p><%= data.prop %></p>
+```
 
-A string value that is used to do something else with whatever else.
+
+#### options.templates
+Type: `Mixed`
+Default value: `[]`
+
+An [array of files](http://gruntjs.com/configuring-tasks#files) of [lo-dash templates](http://lodash.com/docs#template) to be used inside a main template file. May be useful to reuse client side templates to render static files placeholders.
+
+Compiled templates will be indexed by their filename without extension, and are accessible with the `helpers.template` helper method:
+
+```html
+<!-- templates/list.tpl -->
+
+<% fruits.forEach(function (fruit) { %>
+  <li><%= fruit %></li>
+<% }); %>
+```
+
+```html
+<!-- main.html -->
+
+<p><%= helpers.template('list', {fruits: ['orange', 'lemon', 'apple']}) %></p>
+```
+
+#### options.helpers
+Type: `Object`
+Default value: `{}`
+
+Hash of custom methods for usage inside a template.
+
+Default helpers are:
+
+* `template('templatename', dataObject)`: executes a precompiled lo-dash template (if available) with provided data object
+* `getMTime('filepath')`: returns the last modified time (as unix timestamp) of the passed in file. `filepath` is relative to `Gruntfile.js`
+
+
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+To process a file with ejs just pass it to the `files` array:
 
 ```js
 grunt.initConfig({
   render: {
     options: {},
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
+      'dest/index.html': ['src/index.html']
+    }
+  }
+});
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+You may provide custom data from a JSON file:
 
 ```js
 grunt.initConfig({
   render: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      data: grunt.file.readJSON('data/fruits.json')
     },
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
+      'dest/fruits.html': ['src/fruits.html']
+    }
+  }
+});
 ```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+
+
+0.1.0 - Initial release

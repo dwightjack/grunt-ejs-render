@@ -30,7 +30,7 @@ module.exports = function(grunt) {
 	grunt.registerMultiTask('render', 'Renders an EJS template to plain HTML', function() {
 		var options = this.options({
 				helpers: {},
-				basePath: '',
+				//basePath: '', DEPRECATED
 				templates: []
 			}),
 			datapath,
@@ -46,15 +46,17 @@ module.exports = function(grunt) {
 			}
 		};
 		methods.getMTime = function(filepath) {
-			var fpath = path.join(options.basePath, filepath);
+			var fpath = path.normalize(filepath);
+				grunt.log.writeln(grunt.file.exists(fpath));
 			if (grunt.file.exists(fpath)) {
 				return fs.statSync(fpath).mtime.getTime();
 			} else {
+				grunt.log.warn('Unable to find filepath "' + filepath + '"');
 				return '';
 			}
 		};
 
-		options.basePath = grunt.template.process(options.basePath);
+		//options.basePath = grunt.template.process(options.basePath);
 
 		if (_.has(options, 'data') && _.isString(options.data)) {
 			datapath = grunt.template.process(options.data);
