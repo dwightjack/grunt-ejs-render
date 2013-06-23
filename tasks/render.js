@@ -31,7 +31,8 @@ module.exports = function(grunt) {
 		var options = this.options({
 				helpers: {},
 				//basePath: '', DEPRECATED
-				templates: []
+				templates: [],
+				"_": _
 			}),
 			datapath,
 			templates = {},
@@ -73,7 +74,7 @@ module.exports = function(grunt) {
 		//add default methods if not already set
 		options.helpers = _.defaults(options.helpers, methods);
 
-		options._ = _;
+		//options._ = _;
 
 		this.files.forEach(function(file) {
 			var contents = file.src.map(function(filepath) {
