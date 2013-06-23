@@ -6,8 +6,8 @@ This plugin provides ejs static rendering to enhance static file development.
 
 Aside from default [ejs features](https://github.com/visionmedia/ejs#features) it provides:
 
-* lo-dash/underscore functions (http://lodash.com/docs)
-* lo-dash/underscore templates powered view partials (http://lodash.com/docs#template)
+* Lo-Dash/underscore functions (http://lodash.com/docs)
+* Lo-Dash/underscore templates powered view partials (http://lodash.com/docs#template)
 * an easy way to define custom _per task_ helpers 
 
 ## Getting Started
@@ -38,21 +38,67 @@ grunt.initConfig({
     },
     your_target: {
       // Target-specific file lists and/or options go here.
-    },
-  },
+    }
+  }
 })
 ```
 
 ### Options
 
-#### options.data
+#### options._
 Type: `Object`
+Default value: `grunt.util._`
+
+A reference to a [Lo-Dash](http://lodash.com) build. Defaults to the one shipped with Grunt.
+
+
+```js
+
+//load a Backbone build of Lo-Dash
+var bb_ = require('./customlibs/lodash/lodash-backbone.js');
+
+grunt.initConfig({
+  render: {
+    options: {
+     '_' : bb_ 
+    }
+    //...
+  }
+})
+```
+
+
+
+Inside a template you may access Lo-Dash functions from `_`:
+
+```
+<p><%= _.first(['orange', 'lemon', 'apple']) %></p>
+<!-- oputputs <p>orange</p> -->
+```
+
+
+#### options.data
+Type: `Object|String`
 Default value: `null`
 
-An object containing dynamic data to be passed to templates.  
+An object containing dynamic data to be passed to templates. You may also pass a JSON filepath as a string.
+
+```js
+grunt.initConfig({
+  render: {
+    first_target: {
+      data: 'path/to/file.json'
+    },
+    second_target: {
+      data: { 'prop': 'my test'}
+    }
+  }
+})
+```
+
 To access datas from inside a template use `data.` namespace:
 
-```html
+```
 <p><%= data.prop %></p>
 ```
 
@@ -61,11 +107,25 @@ To access datas from inside a template use `data.` namespace:
 Type: `Mixed`
 Default value: `[]`
 
-An [array of files](http://gruntjs.com/configuring-tasks#files) of [lo-dash templates](http://lodash.com/docs#template) to be used inside a main template file. May be useful to reuse client side templates to render static files placeholders.
+An [array of files](http://gruntjs.com/configuring-tasks#files) of [Lo-Dash templates](http://lodash.com/docs#template) to be used inside a main template file. May be useful to reuse client side templates to render a static file.
 
-Compiled templates will be indexed by their filename without extension, and are accessible with the `helpers.template` helper method:
+Compiled templates will be indexed by their filename without extension, and are accessible with the `helpers.template` helper method
 
-```html
+Template configuration
+
+```js
+grunt.initConfig({
+  render: {
+    options: {
+      templates: ['templates/*.tpl']
+    }
+  }
+})
+```
+
+Usage
+
+```
 <!-- templates/list.tpl -->
 
 <% fruits.forEach(function (fruit) { %>
@@ -73,7 +133,7 @@ Compiled templates will be indexed by their filename without extension, and are 
 <% }); %>
 ```
 
-```html
+```
 <!-- main.html -->
 
 <p><%= helpers.template('list', {fruits: ['orange', 'lemon', 'apple']}) %></p>
@@ -87,9 +147,34 @@ Hash of custom methods for usage inside a template.
 
 Default helpers are:
 
-* `template('templatename', dataObject)`: executes a precompiled lo-dash template (if available) with provided data object
+* `template('templatename', dataObject)`: executes a precompiled Lo-Dash template (if available) with provided data object
 * `getMTime('filepath')`: returns the last modified time (as unix timestamp) of the passed in file. `filepath` is relative to `Gruntfile.js`
 
+Helpers configuration
+
+```js
+grunt.initConfig({
+  render: {
+    helpers: {
+      //set a custom helper
+      timestamp: function () { return new Date().getTime(); }
+    }
+  }
+})
+```
+
+Usage inside template
+
+```
+<!-- cache bursting -->
+<script src="/lib/script.js?v=<%= helpers.getMTime('/lib/script.js') %>"></script>
+
+<!-- lo dash template -->
+<p><%= helpers.template('list', {fruits: ['orange', 'lemon', 'apple']}) %></p>
+
+<!-- custom helper -->
+<p>build timestamp: <%= helpers.timestamp() %></p>
+```
 
 
 ### Usage Examples
@@ -109,13 +194,17 @@ grunt.initConfig({
 ```
 
 #### Custom Options
-You may provide custom data from a JSON file:
+You may provide custom options:
 
 ```js
 grunt.initConfig({
   render: {
     options: {
-      data: grunt.file.readJSON('data/fruits.json')
+      data: 'data/fruits.json'
+      helpers: {
+        timestamp: function () { return new Date().getTime(); }
+      },
+      templates: ['templates/*.tpl']
     },
     files: {
       'dest/fruits.html': ['src/fruits.html']
@@ -131,3 +220,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 
 0.1.0 - Initial release
+0.1.1 - Better Docs
