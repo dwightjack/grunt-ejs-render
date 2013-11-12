@@ -139,6 +139,33 @@ Usage
 <p><%= helpers.template('list', {fruits: ['orange', 'lemon', 'apple']}) %></p>
 ```
 
+#### options.partialPaths
+Type: `Array`
+Default value: `[]`
+
+An array of paths where partials may be stored. Accepts both absolute and relative paths.  
+Relative paths are resolved from `Gruntfile.js` location.
+
+This option is used by the `getMTime` and `readPartial` helpers.
+
+```js
+grunt.initConfig({
+  render: {
+    options: {
+      partialPaths: ['app/includes/']
+    }
+  }
+});
+```
+
+To access datas from inside a template use `data.` namespace:
+
+```
+<!-- includes app/includes/block.html -->
+<div><%- helpers.readPartial('block.html') %></div>
+```
+
+
 #### options.helpers
 Type: `Object`
 Default value: `{}`
@@ -148,7 +175,8 @@ Hash of custom methods for usage inside a template.
 Default helpers are:
 
 * `template('templatename', dataObject)`: executes a precompiled Lo-Dash template (if available) with provided data object
-* `getMTime('filepath')`: returns the last modified time (as unix timestamp) of the passed in file. `filepath` is relative to `Gruntfile.js`
+* `getMTime('filepath')`: returns the last modified time (as unix timestamp) of the passed in file.
+* `readPartial('filepath')`: includes the content of the passed in file.
 
 Helpers configuration
 
@@ -219,5 +247,6 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 
 
-0.1.0 - Initial release
+0.2.0 - Added `readPartial` helper and `partialPaths` option
 0.1.1 - Better Docs
+0.1.0 - Initial release
