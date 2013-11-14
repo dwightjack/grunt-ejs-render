@@ -13,6 +13,7 @@ module.exports = function(grunt) {
 	var ejs = require('ejs'),
 		path = require('path'),
 		fs = require('fs'),
+		marked = require('marked'),
 		_ = grunt.util._;
 
 	function render(filepath, options) {
@@ -27,11 +28,37 @@ module.exports = function(grunt) {
 		}
 	}
 
+
+	function getFile (filepath, paths) {
+		var fpath,
+			exists = false;
+
+		exists = (paths || []).some(function (p) {
+			fpath = path.join(p, filepath);
+			return grunt.file.isFile(fpath);
+		});
+
+		if (exists) {
+			return fpath;
+		} else {
+			grunt.log.warn('Unable to find filepath "' + filepath + '"');
+			return false;
+		}
+	}
+
+	//add markdown parser filter to ejs
+	ejs.filters.md = function (obj) {
+		//force string... then parse
+		//just simple as that
+		return marked(obj.toString());
+	};
+
 	grunt.registerMultiTask('render', 'Renders an EJS template to plain HTML', function() {
 		var options = this.options({
 				helpers: {},
 				//basePath: '', DEPRECATED
 				templates: [],
+				partialPaths: [],
 				"_": _
 			}),
 			datapath,
@@ -47,14 +74,19 @@ module.exports = function(grunt) {
 			}
 		};
 		methods.getMTime = function(filepath) {
-			var fpath = path.normalize(filepath);
-				grunt.log.writeln(grunt.file.exists(fpath));
-			if (grunt.file.exists(fpath)) {
+			var fpath = getFile(filepath, options.partialPaths);
+			if (fpath !== false) {
 				return fs.statSync(fpath).mtime.getTime();
-			} else {
-				grunt.log.warn('Unable to find filepath "' + filepath + '"');
-				return '';
 			}
+			return '';
+		};
+
+		methods.readPartial = function(filepath) {
+			var fpath = getFile(filepath, options.partialPaths);
+			if (fpath !== false) {
+				return grunt.file.read(fpath);
+			}
+			return '';
 		};
 
 		//options.basePath = grunt.template.process(options.basePath);

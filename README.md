@@ -8,6 +8,7 @@ Aside from default [ejs features](https://github.com/visionmedia/ejs#features) i
 
 * Lo-Dash/underscore functions (http://lodash.com/docs)
 * Lo-Dash/underscore templates powered view partials (http://lodash.com/docs#template)
+* markdown parsing via a custom ejs filter
 * an easy way to define custom _per task_ helpers 
 
 ## Getting Started
@@ -139,6 +140,31 @@ Usage
 <p><%= helpers.template('list', {fruits: ['orange', 'lemon', 'apple']}) %></p>
 ```
 
+#### options.partialPaths
+Type: `Array`
+Default value: `[]`
+
+An array of paths where partials may be stored. Accepts both absolute and relative paths.  
+Relative paths are resolved from `Gruntfile.js` location.
+
+This option is used by the `getMTime` and `readPartial` helpers.
+
+```js
+grunt.initConfig({
+  render: {
+    options: {
+      partialPaths: ['app/includes/']
+    }
+  }
+});
+```
+
+```
+<!-- includes app/includes/block.html -->
+<div><%- helpers.readPartial('block.html') %></div>
+```
+
+
 #### options.helpers
 Type: `Object`
 Default value: `{}`
@@ -148,7 +174,8 @@ Hash of custom methods for usage inside a template.
 Default helpers are:
 
 * `template('templatename', dataObject)`: executes a precompiled Lo-Dash template (if available) with provided data object
-* `getMTime('filepath')`: returns the last modified time (as unix timestamp) of the passed in file. `filepath` is relative to `Gruntfile.js`
+* `getMTime('filepath')`: returns the last modified time (as unix timestamp) of the passed in file.
+* `readPartial('filepath')`: includes the content of the passed in file.
 
 Helpers configuration
 
@@ -176,6 +203,20 @@ Usage inside template
 <p>build timestamp: <%= helpers.timestamp() %></p>
 ```
 
+### Custom ejs Filter
+
+The plugin adds the `md` custom filter to ejs, which leverages [marked](https://github.com/chjj/marked) to parse markdown syntax:
+
+```
+<%-: **markdown rocks!** | md %>
+<!-- prints <p><strong>markdown rocks!</strong></p>-->
+```
+
+You may use this filter in conjunction with `readPartial` helpers to import markdown files
+
+```
+<%-: helpers.readPartial('md/about-us.md') | md %>
+```
 
 ### Usage Examples
 
@@ -219,5 +260,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 
 
-0.1.0 - Initial release
+0.2.0 - Added `readPartial` helper, `partialPaths` option and `md` custom filter
+
 0.1.1 - Better Docs
+
+0.1.0 - Initial release

@@ -1,7 +1,7 @@
 {
   "name": "grunt-ejs-render",
   "description": "Render EJS templates with custom data and helpers",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "homepage": "https://github.com/dwightjack/grunt-ejs-render",
   "author": {
     "name": "Marco Solazzi",
@@ -29,12 +29,13 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "ejs": "~0.8.4"
+    "ejs": "~0.8.4",
+    "marked": "~0.2.10"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-jshint": "~0.7.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-nodeunit": "~0.2.2",
     "grunt": "~0.4.1"
   },
   "peerDependencies": {

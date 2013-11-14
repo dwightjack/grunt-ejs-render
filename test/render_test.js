@@ -45,4 +45,22 @@ exports.render = {
 
     test.done();
   },
+  read_file_helper: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/read_file_helper');
+    var expected = grunt.file.read('test/expected/read_file_helper');
+    test.equal(actual, expected, 'Read file helpers imports external files');
+
+    test.done();
+  },
+  read_file_md_filter: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/read_file_md_filter').trim();
+    var expected = grunt.file.read('test/expected/read_file_md_filter').trim();
+    test.equal(actual, expected, 'Read file helpers imports external files and markdown filters parses it');
+
+    test.done();
+  }
 };
