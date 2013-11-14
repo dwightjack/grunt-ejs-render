@@ -158,8 +158,6 @@ grunt.initConfig({
 });
 ```
 
-To access datas from inside a template use `data.` namespace:
-
 ```
 <!-- includes app/includes/block.html -->
 <div><%- helpers.readPartial('block.html') %></div>
