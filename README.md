@@ -261,5 +261,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 
 0.2.0 - Added `readPartial` helper, `partialPaths` option and `md` custom filter
+
 0.1.1 - Better Docs
+
 0.1.0 - Initial release

@@ -1,7 +1,7 @@
 {
   "name": "grunt-ejs-render",
   "description": "Render EJS templates with custom data and helpers",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "homepage": "https://github.com/dwightjack/grunt-ejs-render",
   "author": {
     "name": "Marco Solazzi",
