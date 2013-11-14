@@ -13,6 +13,7 @@ module.exports = function(grunt) {
 	var ejs = require('ejs'),
 		path = require('path'),
 		fs = require('fs'),
+		marked = require('marked'),
 		_ = grunt.util._;
 
 	function render(filepath, options) {
@@ -44,6 +45,13 @@ module.exports = function(grunt) {
 			return false;
 		}
 	}
+
+	//add markdown parser filter to ejs
+	ejs.filters.md = function (obj) {
+		//force string... then parse
+		//just simple as that
+		return marked(obj.toString());
+	};
 
 	grunt.registerMultiTask('render', 'Renders an EJS template to plain HTML', function() {
 		var options = this.options({

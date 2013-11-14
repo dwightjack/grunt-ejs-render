@@ -29,7 +29,8 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "ejs": "~0.8.4"
+    "ejs": "~0.8.4",
+    "marked": "~0.2.10"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.7.1",

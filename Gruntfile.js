@@ -56,6 +56,14 @@ module.exports = function(grunt) {
           'tmp/read_file_helper': ['test/fixtures/read_file_helper'],
         },
       },
+      read_file_md_filter: {
+        options: {
+          partialPaths: ['test/fixtures/']
+        },
+        files: {
+          'tmp/read_file_md_filter': ['test/fixtures/read_file_md_filter'],
+        },
+      }
     },
 
     // Unit tests.
