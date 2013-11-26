@@ -14,7 +14,11 @@ module.exports = function(grunt) {
 		path = require('path'),
 		fs = require('fs'),
 		marked = require('marked'),
-		_ = grunt.util._;
+		_ = require('lodash');
+
+	//add `underscore.string` for deprecated `grunt.util._` compat
+	_.str = require('underscore.string');
+	_.mixin(_.str.exports());
 
 	function render(filepath, options) {
 		var src = '';

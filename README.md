@@ -48,9 +48,9 @@ grunt.initConfig({
 
 #### options._
 Type: `Object`
-Default value: `grunt.util._`
+Default value: `_`
 
-A reference to a [Lo-Dash](http://lodash.com) build. Defaults to the one shipped with Grunt.
+A reference to a [Lo-Dash](http://lodash.com) build. Defaults to the full [Lo-Dash](http://lodash.com) from npm integrated with [Underscore.string](https://github.com/epeli/underscore.string).
 
 
 ```js
@@ -259,6 +259,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+0.2.1 - Replaced deprecated reference to `grunt.util._` with `lodash` and `uderscore.string` npm modules
 
 0.2.0 - Added `readPartial` helper, `partialPaths` option and `md` custom filter
 
