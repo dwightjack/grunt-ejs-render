@@ -95,10 +95,38 @@ module.exports = function(grunt) {
 
 		//options.basePath = grunt.template.process(options.basePath);
 
-		if (_.has(options, 'data') && _.isString(options.data)) {
-			datapath = grunt.template.process(options.data);
-			if (grunt.file.exists(datapath)) {
-				options.data = grunt.file.readJSON(datapath);
+		if ( _.has(options, 'data')) {
+
+			if ( _.isArray(options.data) ) {
+
+				datapath = [].concat(options.data);
+				datapath = _(datapath)
+							.map(function(filepath) {
+								return grunt.file.expand({
+									filter: function(src) {
+										return grunt.file.isFile(src) && (path.extname(src) === '.json');
+									}
+								}, grunt.config.process(filepath));
+							})
+							.flatten()
+							.uniq()
+							.valueOf();
+
+				options.data = {};
+				datapath.forEach(function (file) {
+					var filename = path.basename(file, '.json');
+					var keyName = _.camelize( _.slugify(filename) );
+					options.data[keyName] = grunt.file.readJSON(file);
+				});
+
+
+			} else if (_.isString(options.data)) {
+				//DEPRECATED
+				//Kept for compatibility with older versions < 0.2.2
+				datapath = grunt.template.process(options.data);
+				if (grunt.file.exists(datapath)) {
+					options.data = grunt.file.readJSON(datapath);
+				}
 			}
 		}
 

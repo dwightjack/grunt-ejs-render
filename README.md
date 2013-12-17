@@ -74,21 +74,23 @@ Inside a template you may access Lo-Dash functions from `_`:
 
 ```
 <p><%= _.first(['orange', 'lemon', 'apple']) %></p>
-<!-- oputputs <p>orange</p> -->
+<!-- outputs <p>orange</p> -->
 ```
 
 
 #### options.data
-Type: `Object|String`
+Type: `Object|Array`
 Default value: `null`
 
-An object containing dynamic data to be passed to templates. You may also pass a JSON filepath as a string.
+An object containing dynamic data to be passed to templates. 
+
+You may also pass an array of JSON filepaths (any Grunt compatible globbing and template syntax is supported). `options.data` will be populated with files' contents.
 
 ```js
 grunt.initConfig({
   render: {
     first_target: {
-      data: 'path/to/file.json'
+      data: ['path/to/my-file.json', 'path/to/my-other-file.json']
     },
     second_target: {
       data: { 'prop': 'my test'}
@@ -101,6 +103,16 @@ To access datas from inside a template use `data.` namespace:
 
 ```
 <p><%= data.prop %></p>
+```
+
+When filepaths are provided, filenames are processed to create new namespaces:
+
+```
+<!-- read from path/to/my-file.json -->
+<p><%= data.myFile.whatever %></p>
+
+<!-- read from path/to/my-other-file.json -->
+<p><%= data.myOtherFile.whateveragain %></p>
 ```
 
 
@@ -241,7 +253,7 @@ You may provide custom options:
 grunt.initConfig({
   render: {
     options: {
-      data: 'data/fruits.json'
+      data: ['data/fruits.json']
       helpers: {
         timestamp: function () { return new Date().getTime(); }
       },
@@ -258,6 +270,8 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+0.2.2 - Improved `options.data` option by adding filepaths processing
 
 0.2.1 - Replaced deprecated reference to `grunt.util._` with `lodash` and `uderscore.string` npm modules
 

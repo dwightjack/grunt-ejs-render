@@ -48,6 +48,14 @@ module.exports = function(grunt) {
           'tmp/custom_options': ['test/fixtures/custom_options'],
         },
       },
+      data_filepaths: {
+        options: {
+          data: ['test/fixtures/data/*.json']
+        },
+        files: {
+          'tmp/data_filepaths': ['test/fixtures/data_filepaths'],
+        },
+      },
       read_file_helper: {
         options: {
           partialPaths: ['test/fixtures/']
