@@ -138,6 +138,13 @@ module.exports = function(grunt) {
 		//add default methods if not already set
 		options.helpers = _.defaults(options.helpers, methods);
 
+		//make options object accessible to helpers
+		_.forOwn(options.helpers, function(helperFunc, helperName, helpers) {
+			if (_.isFunction(helperFunc)) {
+				helpers[helperName] = _.bind(helperFunc, options);
+			}
+		});
+
 		//options._ = _;
 
 		this.files.forEach(function(file) {

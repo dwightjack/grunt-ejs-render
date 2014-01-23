@@ -71,5 +71,14 @@ exports.render = {
     test.equal(actual, expected, 'Read file helpers imports external files and markdown filters parses it');
 
     test.done();
+  },
+  helpers_context: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/helpers_context').trim();
+    var expected = grunt.file.read('test/expected/helpers_context').trim();
+    test.equal(actual, expected, 'helpers context is the task options object');
+
+    test.done();
   }
 };
