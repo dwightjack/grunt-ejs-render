@@ -181,7 +181,7 @@ grunt.initConfig({
 Type: `Object`
 Default value: `{}`
 
-Hash of custom methods for usage inside a template.
+Hash of custom methods for usage inside a template. Within helpers, `this` refers to the current tasks' options.
 
 Default helpers are:
 
@@ -196,23 +196,31 @@ grunt.initConfig({
   render: {
     helpers: {
       //set a custom helper
-      timestamp: function () { return new Date().getTime(); }
+      timestamp: function () { return new Date().getTime(); },
+      getName: function () { return this.data.name; }
+    },
+    data: {
+      name: 'John'
     }
   }
 })
 ```
 
-Usage inside template
+Usage inside templates
 
 ```
 <!-- cache bursting -->
 <script src="/lib/script.js?v=<%= helpers.getMTime('/lib/script.js') %>"></script>
 
 <!-- lo dash template -->
-<p><%= helpers.template('list', {fruits: ['orange', 'lemon', 'apple']}) %></p>
+<%= helpers.template('list', {fruits: ['orange', 'lemon', 'apple']}) %>
 
 <!-- custom helper -->
-<p>build timestamp: <%= helpers.timestamp() %></p>
+build timestamp: <%= helpers.timestamp() %>
+
+<!-- task's options within helpers  -->
+Hi <%= helpers.getName() %>
+<-- outputs: Hi John -->
 ```
 
 ### Custom ejs Filter
@@ -270,6 +278,8 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+0.2.3 - Bound helpers context to current task's options
 
 0.2.2 - Improved `options.data` option by adding filepaths processing
 
