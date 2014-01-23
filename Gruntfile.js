@@ -71,6 +71,21 @@ module.exports = function(grunt) {
         files: {
           'tmp/read_file_md_filter': ['test/fixtures/read_file_md_filter'],
         },
+      },
+      helpers_context: {
+        options: {
+          helpers: {
+            getTestKey: function () {
+              return this.data.testKey;
+            }
+          },
+          data: {
+            testKey: 'testValue'
+          }
+        },
+        files: {
+          'tmp/helpers_context': ['test/fixtures/helpers_context'],
+        },
       }
     },
 
