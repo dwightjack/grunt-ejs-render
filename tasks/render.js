@@ -93,6 +93,14 @@ module.exports = function(grunt) {
 			return '';
 		};
 
+        methods.renderPartial = function(filepath, data) {
+			var fpath = getFile(filepath, options.partialPaths);
+			if (fpath !== false) {
+				return render(fpath, _.defaults(options, {filename: fpath}, data));
+			}
+			return '';
+		};
+
 		//options.basePath = grunt.template.process(options.basePath);
 
 		if ( _.has(options, 'data')) {
