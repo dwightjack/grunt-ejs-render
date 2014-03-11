@@ -188,6 +188,7 @@ Default helpers are:
 * `template('templatename', dataObject)`: executes a precompiled Lo-Dash template (if available) with provided data object
 * `getMTime('filepath')`: returns the last modified time (as unix timestamp) of the passed in file.
 * `readPartial('filepath')`: includes the content of the passed in file.
+* `renderPartial('filepath', dataObject)`: renders passed in template, properties of `dataObject` are available as template local variables.
 
 Helpers configuration
 
