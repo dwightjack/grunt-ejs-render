@@ -85,7 +85,19 @@ module.exports = function(grunt) {
         },
         files: {
           'tmp/helpers_context': ['test/fixtures/helpers_context'],
+        }
+      },
+      render_partial: {
+        options: {
+          partialPaths: ['test/fixtures/'],
+          data: {
+            name: 'John',
+            surname: 'Doe'
+          }
         },
+        files: {
+          'tmp/render_partial': ['test/fixtures/render_partial'],
+        }
       }
     },
 
