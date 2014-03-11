@@ -80,5 +80,15 @@ exports.render = {
     test.equal(actual, expected, 'helpers context is the task options object');
 
     test.done();
+  },
+
+  render_partial: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/render_partial').trim();
+    var expected = grunt.file.read('test/expected/render_partial').trim();
+    test.equal(actual, expected, 'partials got rendered with contextual data');
+
+    test.done();
   }
 };
