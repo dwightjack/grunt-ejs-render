@@ -280,6 +280,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+0.2.4 - merged [PR](https://github.com/dwightjack/grunt-ejs-render/pull/5)
+
 0.2.4 - added `renderPartial` helper (thanks to [Piotr Walczyszyn](https://github.com/pwalczyszyn))
 
 0.2.3 - Bound helpers context to current task's options
