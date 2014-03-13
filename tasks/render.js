@@ -96,7 +96,7 @@ module.exports = function(grunt) {
         methods.renderPartial = function(filepath, data) {
 			var fpath = getFile(filepath, options.partialPaths);
 			if (fpath !== false) {
-				return render(fpath, _.defaults(options, {filename: fpath}, data));
+				return render(fpath, _.extend(options, {filename: fpath}, data));
 			}
 			return '';
 		};
