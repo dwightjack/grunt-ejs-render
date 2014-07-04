@@ -90,10 +90,16 @@ You may also pass an array of JSON filepaths (any Grunt compatible globbing and 
 grunt.initConfig({
   render: {
     first_target: {
+    options: {
       data: ['path/to/my-file.json', 'path/to/my-other-file.json']
+      }
+      
     },
     second_target: {
+      options: {
       data: { 'prop': 'my test'}
+      }
+      
     }
   }
 })
@@ -195,13 +201,15 @@ Helpers configuration
 ```js
 grunt.initConfig({
   render: {
-    helpers: {
-      //set a custom helper
-      timestamp: function () { return new Date().getTime(); },
-      getName: function () { return this.data.name; }
-    },
-    data: {
-      name: 'John'
+    options: {
+      helpers: {
+        //set a custom helper
+        timestamp: function () { return new Date().getTime(); },
+        getName: function () { return this.data.name; }
+      },
+      data: {
+        name: 'John'
+      }
     }
   }
 })
@@ -248,8 +256,10 @@ To process a file with ejs just pass it to the `files` array:
 grunt.initConfig({
   render: {
     options: {},
-    files: {
-      'dest/index.html': ['src/index.html']
+    html: {
+      files: {
+        'dest/index.html': ['src/index.html']
+      }
     }
   }
 });
@@ -268,8 +278,10 @@ grunt.initConfig({
       },
       templates: ['templates/*.tpl']
     },
-    files: {
-      'dest/fruits.html': ['src/fruits.html']
+    fruits: {
+        files: {
+          'dest/fruits.html': ['src/fruits.html']
+      }
     }
   }
 });
@@ -280,7 +292,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-0.2.4 - merged [PR](https://github.com/dwightjack/grunt-ejs-render/pull/5)
+0.2.6 - fix typos (thanks @derekbasch) and updated dependencies
+
+0.2.5 - merged [PR](https://github.com/dwightjack/grunt-ejs-render/pull/5)
 
 0.2.4 - added `renderPartial` helper (thanks to [Piotr Walczyszyn](https://github.com/pwalczyszyn))
 
