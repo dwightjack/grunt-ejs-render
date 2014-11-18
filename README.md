@@ -79,10 +79,12 @@ Inside a template you may access Lo-Dash functions from `_`:
 
 
 #### options.data
-Type: `Object|Array`
+Type: `Object|Array|Function`
 Default value: `null`
 
 An object containing dynamic data to be passed to templates. 
+
+If data is a function, actual data passed to template is result of that function.
 
 You may also pass an array of JSON filepaths (any Grunt compatible globbing and template syntax is supported). `options.data` will be populated with files' contents.
 
