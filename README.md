@@ -102,6 +102,13 @@ grunt.initConfig({
       data: { 'prop': 'my test'}
       }
       
+    },
+    third_target: {
+      options: {
+        data: function () {
+          return { 'prop': 'my test'};
+        }
+      }
     }
   }
 })
@@ -293,6 +300,8 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+0.2.7 - updated dependencies, `data` options now accepts a function which returns an object (thanks @ertrzyiks)
 
 0.2.6 - fix typos (thanks @derekbasch) and updated dependencies
 
