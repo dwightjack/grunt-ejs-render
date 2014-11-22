@@ -98,6 +98,19 @@ module.exports = function(grunt) {
         files: {
           'tmp/render_partial': ['test/fixtures/render_partial'],
         }
+      },
+      data_function: {
+        options: {
+          data: function () {
+            return {
+              name: 'John',
+              surname: 'Doe'
+            };
+          }
+        },
+        files: {
+          'tmp/data_function': ['test/fixtures/data_function'],
+        }
       }
     },
 
