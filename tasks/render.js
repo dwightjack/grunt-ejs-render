@@ -93,7 +93,7 @@ module.exports = function(grunt) {
 			return '';
 		};
 
-        methods.renderPartial = function(filepath, data) {
+			methods.renderPartial = function(filepath, data) {
 			var fpath = getFile(filepath, options.partialPaths);
 			if (fpath !== false) {
 				return render(fpath, _.extend({}, options, {filename: fpath}, data || {}));
@@ -128,6 +128,8 @@ module.exports = function(grunt) {
 				});
 
 
+			} else if (_.isFunction(options.data)) {
+				options.data = options.data();
 			} else if (_.isString(options.data)) {
 				//DEPRECATED
 				//Kept for compatibility with older versions < 0.2.2

@@ -90,5 +90,14 @@ exports.render = {
     test.equal(actual, expected, 'partials got rendered with contextual data');
 
     test.done();
+  },
+  data_function: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/data_function').trim();
+    var expected = grunt.file.read('test/expected/data_function').trim();
+    test.equal(actual, expected, 'Template data is result of function call');
+
+    test.done();
   }
 };
