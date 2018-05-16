@@ -2,6 +2,8 @@
 
 > Render ejs templates with custom data and helpers
 
+:exclamation: :exclamation:**MAINTAINERS WANTED: I'm no longer maintaining this project. Feel free to drop me a line if you're interested in keeping up the development** :exclamation: :exclamation:
+
 This plugin provides ejs static rendering to enhance static file development.
 
 Aside from default [ejs features](https://github.com/visionmedia/ejs#features) it provides:
